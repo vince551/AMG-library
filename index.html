@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMG Community Library</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="images/logo.jpg" alt="Library Logo" style="height: 40px; vertical-align: middle;"> AMG LIBRARY
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="toggleModal('login-modal')">Librarian Desk</a></li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#catalog">Catalog</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="login-modal" class="modal-overlay hidden">
+        <div class="modal-box">
+            <span class="close-modal" onclick="closeLoginModal()">&times;</span>
+            <h3>Librarian Authentication</h3>
+            <p style="font-size: 0.9rem; color: #6b7280; margin-bottom: 1.5rem;">Please enter your credentials to access the registration log desk.</p>
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="lib-username">Librarian Name</label>
+                    <input type="text" id="lib-username" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <label for="lib-password">Password</label>
+                    <input type="password" id="lib-password" placeholder="••••••••" required>
+                </div>
+                <p id="login-error" class="hidden" style="color: #dc2626; font-size: 0.85rem; font-weight: bold; margin-bottom: 1rem;">❌ Invalid name or password!</p>
+                <button type="submit" class="btn portal-btn">Access Desk</button>
+            </form>
+        </div>
+    </div>
+
+    <section id="home" class="hero">
+        <div class="hero-overlay">
+            <h1>Welcome to AMG Community Library</h1>
+            <p>Discover worlds, connect with neighbors, and grow your mind.</p>
+            <a href="#catalog" class="btn">Explore Catalog</a>
+        </div>
+    </section>
+
+    <section id="about" class="container">
+        <h2>About AMG Community Library</h2>
+        <p class="section-subtitle">A welcoming space for minds to connect, learn, and grow together.</p>
+        
+        <div class="about-layout">
+            <div class="about-text">
+                <h3>Our Mission</h3>
+                <p>Founded with a passion for learning, AMG Community Library is dedicated to making knowledge, technology, and literature accessible to everyone. We believe a library is more than just books—it's the heartbeat of the community.</p>
+                <p>Whether you are looking for the latest bestseller, a quiet place to study, or fun weekend workshops, our doors are always open to you.</p>
+            </div>
+            
+            <div class="about-image">
+                <img src="images/enc.jpg" alt="Inside AMG Library" class="library-pic">
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="card">
+                <div class="card-icon">📚</div>
+                <h3>5,000+ Books</h3>
+                <p>From classic literature to modern sci-fi, children's books, and educational textbooks.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">💻</div>
+                <h3>Free Digital Access</h3>
+                <p>High-speed internet, computer stations, and a growing catalog of e-books.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">👥</div>
+                <h3>Community Events</h3>
+                <p>Weekly book clubs, children's storytelling hours, and tech workshops for all ages.</p>
+            </div>
+        </div>
+
+        <div class="hours-section">
+            <h3>Hours of Operation</h3>
+            <table class="hours-table">
+                <tr>
+                    <td><strong>Monday - Friday</strong></td>
+                    <td>9:00 AM - 7:00 PM</td>
+                </tr>
+                <tr>
+                    <td><strong>Saturday</strong></td>
+                    <td>10:00 AM - 4:00 PM</td>
+                </tr>
+                <tr>
+                    <td><strong>Sunday</strong></td>
+                    <td class="closed">Closed</td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <section id="catalog" class="bg-light">
+        <div class="container">
+            <h2>AMG Library Catalog</h2>
+            <p class="section-subtitle">Explore our curated selections across children's favorites, modern technology, and global stories.</p>
+            
+            <h3 class="category-title">Children's Classics</h3>
+            <div class="book-grid">
+                <div class="book-card">
+                    <img src="https://covers.openlibrary.org/b/id/14570020-L.jpg" alt="Alice in Wonderland Cover" class="book-img">
+                    <h3>Alice in Wonderland</h3>
+                    <p class="book-author">by Lewis Carroll</p>
+                    <p class="book-desc">Follow Alice down the rabbit hole into a whimsical world of talking animals.</p>
+                    <a href="https://www.gutenberg.org/files/11/11-h/11-h.htm" target="_blank" class="btn book-btn">Read Online</a>
+                </div>
+                <div class="book-card">
+                    <img src="https://covers.openlibrary.org/b/id/12836244-L.jpg" alt="The Secret Garden Cover" class="book-img">
+                    <h3>The Secret Garden</h3>
+                    <p class="book-author">by Frances Hodgson Burnett</p>
+                    <p class="book-desc">Discover the mystery of a locked, hidden garden that changes lives.</p>
+                    <a href="https://www.gutenberg.org/files/113/113-h/113-h.htm" target="_blank" class="btn book-btn">Read Online</a>
+                </div>
+            </div>
+
+            <h3 class="category-title">Coding & Technology</h3>
+            <div class="book-grid">
+                <div class="book-card">
+                    <img src="https://covers.openlibrary.org/b/id/14413154-L.jpg" alt="Eloquent JavaScript Cover" class="book-img">
+                    <h3>Eloquent JavaScript</h3>
+                    <p class="book-author">by Marijn Haverbeke</p>
+                    <p class="book-desc">A deep dive into the JavaScript language, teaching you how to write beautiful, effective web applications.</p>
+                    <a href="https://eloquentjavascript.net/" target="_blank" class="btn book-btn">Read Free Online</a>
+                </div>
+                <div class="book-card">
+                    <img src="https://covers.openlibrary.org/b/id/10189031-L.jpg" alt="Automate the Boring Stuff Cover" class="book-img">
+                    <h3>Automate the Boring Stuff with Python</h3>
+                    <p class="book-author">by Al Sweigart</p>
+                    <p class="book-desc">Learn practical coding techniques to quickly write Python programs that do practical tasks automatically.</p>
+                    <a href="https://automatetheboringstuff.com/" target="_blank" class="btn book-btn">Read Free Online</a>
+                </div>
+            </div>
+
+            <h3 class="category-title">Global Stories & Current Events</h3>
+            <div class="book-grid">
+                <div class="book-card">
+                    <img src="https://covers.openlibrary.org/b/id/12560888-L.jpg" alt="AI 2041 Cover" class="book-img">
+                    <h3>AI 2041: Ten Visions for Our Future</h3>
+                    <p class="book-author">by Kai-Fu Lee & Chen Qiufan</p>
+                    <p class="book-desc">A fascinating mix of science fiction and predictive analysis exploring how Artificial Intelligence impacts our real world.</p>
+                    <a href="https://openlibrary.org/books/OL34208031M/AI_2041" target="_blank" class="btn book-btn">Check Availability</a>
+                </div>
+                <div class="book-card">
+                    <img src="https://covers.openlibrary.org/b/id/14441018-L.jpg" alt="Autocracy, Inc. Cover" class="book-img">
+                    <h3>Autocracy, Inc.</h3>
+                    <p class="book-author">by Anne Applebaum</p>
+                    <p class="book-desc">An essential look at modern global networks, world politics, and the systems that manage international information networks.</p>
+                    <a href="https://openlibrary.org/books/OL51347074M/Autocracy_Inc." target="_blank" class="btn book-btn">Check Availability</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="contact" class="container">
+        <h2>Contact Us</h2>
+        <p class="section-subtitle">Have questions, feedback, or want to donate books? Reach out to us anytime!</p>
+        
+        <div class="contact-wrapper">
+            <div class="contact-info">
+                <h3>Get in Touch</h3>
+                <p>We would love to hear from you. Stop by our front desk or send us a digital note.</p>
+                
+                <div class="info-item">
+                    <span class="info-icon">📍</span>
+                    <div>
+                        <h4>Location</h4>
+                        <p>123 Learning Lane, Community Hub</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-icon">📞</span>
+                    <div>
+                        <h4>Phone Number</h4>
+                        <p>+1 (555) 019-2834</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-icon">✉️</span>
+                    <div>
+                        <h4>Email Address</h4>
+                        <p>support@amglibrary.org</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form-container">
+                <form class="contact-form" onsubmit="event.preventDefault(); alert('Thank you! Your message has been sent.');">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" id="email" placeholder="johndoe@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" placeholder="How can we help you today?" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn contact-submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="librarian-portal" class="hidden" style="background-color: #ffffff; border-top: 4px solid var(--primary-blue);">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 1rem;">
+                <h2>Librarian Desk: Visitor Log</h2>
+                <button onclick="logoutLibrarian()" class="btn" style="background: #dc2626; padding: 0.5rem 1rem; font-size: 0.9rem;">🔒 Lock Desk</button>
+            </div>
+            <p class="section-subtitle">Register learners and community members as they enter the library facility.</p>
+            
+            <div style="display: flex; gap: 1.5rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap;">
+                <div style="background: var(--light-bg); padding: 1rem 2rem; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.2); text-align: center; min-width: 150px;">
+                    <span style="font-size: 0.85rem; font-weight: bold; color: var(--primary-blue); display: block; text-transform: uppercase;">Inside Now</span>
+                    <span id="live-counter" style="font-size: 2rem; font-weight: bold; color: var(--accent-green);">0</span>
+                </div>
+                <div style="background: #f3f4f6; padding: 1rem 2rem; border-radius: 8px; border: 1px solid #e5e7eb; text-align: center; min-width: 150px;">
+                    <span style="font-size: 0.85rem; font-weight: bold; color: #4b5563; display: block; text-transform: uppercase;">Total Visits Today</span>
+                    <span id="total-visits" style="font-size: 2rem; font-weight: bold; color: var(--primary-blue);">0</span>
+                </div>
+            </div>
+
+            <div id="capacity-alert" class="hidden" style="background-color: #fee2e2; color: #dc2626; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; font-weight: bold; text-align: center; border: 1px solid #fca5a5;">
+                ⚠️ Library is currently at maximum safe capacity!
+            </div>
+            
+            <div class="portal-wrapper">
+                <div class="portal-form-box">
+                    <h3>Check-In Learner</h3>
+                    <form id="checkin-form">
+                        <div class="form-group">
+                            <label for="learner-name">Learner Full Name</label>
+                            <input type="text" id="learner-name" placeholder="Enter name..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="visit-purpose">Purpose of Visit</label>
+                            <select id="visit-purpose" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.95rem; outline: none; background: white;">
+                                <option value="Self-Study">Self-Study / Homework</option>
+                                <option value="Computer Use">Using Computers / Internet</option>
+                                <option value="Group Project">Group Project</option>
+                                <option value="Tutoring">Tutoring & Mentorship</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn portal-btn">Check In Member</button>
+                    </form>
+                    
+                    <button id="export-btn" class="btn" style="width: 100%; background: var(--primary-blue); margin-top: 1rem; padding: 0.6rem; font-size: 0.9rem;">📥 Export Log to CSV</button>
+                </div>
+
+                <div class="portal-table-box">
+                    <h3>Active Daily Log</h3>
+                    <div style="overflow-x: auto;">
+                        <table class="log-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Purpose</th>
+                                    <th>Time In</th>
+                                    <th style="text-align: right;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="log-table-body">
+                                <tr id="empty-state">
+                                    <td colspan="4" style="text-align: center; color: #9ca3af; padding: 2rem; font-style: italic;">No learners checked in yet today.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 TownReads Community Library. Built with care.</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script src="script.js"></script>
+</body>
+</html>
