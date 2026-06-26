@@ -1401,3 +1401,45 @@ footer {
 .contact-form-container:hover {
     box-shadow: 0 12px 32px rgba(16, 185, 129, 0.18);
 }
+
+/* --- High-Energy Light Neon Select Dropdown Style --- */
+.portal-form-box select {
+    background-color: var(--white) !important; /* Keep it clean and bright */
+    border: 2px solid #10b981 !important; /* Radiant neon emerald outline */
+    color: var(--text-dark) !important;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    outline: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    
+    /* Custom clean arrow appearance overrides */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23059669' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 1rem center !important;
+    background-size: 1.1rem !important;
+    padding-right: 2.5rem !important;
+    
+    /* Ambient neon emerald signature footprint shadow */
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.12);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Focused Dropdown State with Intensified Active Neon Radiation */
+.portal-form-box select:focus {
+    border-color: #34d399 !important; /* Brightens up on selection */
+    box-shadow: 0 0 0 1px #34d399, 
+                0 0 14px rgba(52, 211, 153, 0.45) !important;
+}
+
+/* Clean, crisp drop-down option listing architecture */
+.portal-form-box select option {
+    background-color: var(--white);
+    color: var(--text-dark);
+    font-weight: 500;
+    padding: 0.75rem;
+}
