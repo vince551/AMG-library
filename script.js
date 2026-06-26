@@ -48,29 +48,69 @@ const purposeStyles = {
     'Tutoring': 'bg-emerald-600 text-white border-emerald-600'
 };
 
+// Graphical Data Analysis Sync Engine
+function updateAttendanceChart(records) {
+    let morning = 0, midday = 0, afternoon = 0;
+
+    records.forEach(record => {
+        const timeStr = record.timeIn || "";
+        const hour = parseInt(timeStr.split(':')[0], 10);
+        const isPM = timeStr.toLowerCase().includes('pm');
+        
+        let standardHour = hour;
+        if (isPM && hour !== 12) standardHour += 12;
+        if (!isPM && hour === 12) standardHour = 0;
+
+        if (standardHour < 12) morning++;
+        else if (standardHour >= 12 && standardHour < 15) midday++;
+        else afternoon++;
+    });
+
+    const total = morning + midday + afternoon || 1;
+
+    // Update Counter Inner Strings
+    const valMorning = document.getElementById('chart-val-morning');
+    const valMidday = document.getElementById('chart-val-midday');
+    const valAfternoon = document.getElementById('chart-val-afternoon');
+    
+    if (valMorning) valMorning.innerText = morning;
+    if (valMidday) valMidday.innerText = midday;
+    if (valAfternoon) valAfternoon.innerText = afternoon;
+
+    // Render Clean Calculated Scale Percentages Smoothly
+    const barMorning = document.getElementById('chart-bar-morning');
+    const barMidday = document.getElementById('chart-bar-midday');
+    const barAfternoon = document.getElementById('chart-bar-afternoon');
+
+    if (barMorning) barMorning.style.height = `${(morning / total) * 100}%`;
+    if (barMidday) barMidday.style.height = `${(midday / total) * 100}%`;
+    if (barAfternoon) barAfternoon.style.height = `${(afternoon / total) * 100}%`;
+}
+
 // 📥 FIREBASE STREAMING: Read records and auto-sync updates live
 database.ref('attendance').on('value', function(snapshot) {
-    tableBody.innerHTML = ''; // Reset UI view container
+    if (!tableBody) return;
+    
+    tableBody.innerHTML = ''; 
     attendanceData = [];
     currentInsideCount = 0;
     totalVisitsToday = 0;
     
     const data = snapshot.val();
     
-    // Default state display if database node is completely empty
     if (!data) {
         tableBody.innerHTML = `
             <tr id="empty-state">
                 <td colspan="4" style="text-align: center; color: #9ca3af; padding: 2rem; font-style: italic;">No learners checked in yet today.</td>
             </tr>`;
         updateDashboardMetrics();
+        updateAttendanceChart([]);
         return;
     }
 
-    // Loop through individual Firebase data leaves
     Object.keys(data).forEach(key => {
         const item = data[key];
-        item.firebaseId = key; // Attach the database reference id key to use later during checkout updates
+        item.firebaseId = key; 
         attendanceData.push(item);
         
         totalVisitsToday++;
@@ -79,10 +119,8 @@ database.ref('attendance').on('value', function(snapshot) {
         }
     });
 
-    // Keep the newest check-ins displaying cleanly at the very top of the desk log
     attendanceData.sort((a, b) => b.id - a.id);
 
-    // Render HTML table elements live from synchronized data
     attendanceData.forEach(row => {
         const styleClass = purposeStyles[row.purpose] || 'bg-white text-slate-700 border-slate-300';
         const tr = document.createElement('tr');
@@ -95,75 +133,103 @@ database.ref('attendance').on('value', function(snapshot) {
                     Check Out
                 </button>`;
         } else {
-            actionColumnHtml = `<span class="text-xs text-emerald-600 font-mono font-bold bg-emerald-50 px-2 py-1 rounded">Left ${row.timeOut}</span>`;
+            actionColumnHtml = `<span class="text-xs text-slate-400 font-medium">${row.timeOut}</span>`;
         }
 
         tr.innerHTML = `
-            <td class="p-4 font-bold text-slate-800">${row.name}</td>
-            <td class="p-4">
-                <span class="px-2.5 py-1 text-xs font-bold rounded-md border ${styleClass}">
-                    ${row.purpose === 'Tutoring' ? 'Tutoring & Mentorship' : row.purpose}
-                </span>
-            </td>
-            <td class="p-4 text-slate-500 font-mono text-xs">${row.timeIn}</td>
-            <td class="p-4 text-right">${actionColumnHtml}</td>
+            <td style="font-weight: 600; color: var(--primary-blue);">${row.name}</td>
+            <td><span class="purpose-badge ${styleClass}">${row.purpose}</span></td>
+            <td style="font-family: monospace; font-size: 0.85rem;">${row.timeIn}</td>
+            <td style="text-align: right;">${actionColumnHtml}</td>
         `;
         tableBody.appendChild(tr);
     });
 
     updateDashboardMetrics();
+    updateAttendanceChart(attendanceData);
 });
 
-// 📤 FIREBASE ACTION: Record entry logs directly into your cloud terminal leaves
-if (form) {
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const name = nameInput.value.trim();
-        const purpose = purposeInput.value;
-        const timeIn = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const recordId = Date.now();
-
-        if (!name) return;
-
-        // Push structural item properties up to the cloud tree location
-        database.ref('attendance').push({
-            id: recordId,
-            name: name,
-            purpose: purpose,
-            timeIn: timeIn,
-            timeOut: '-'
-        });
-
-        nameInput.value = '';
-        nameInput.focus();
-    });
-}
-
-// 🔄 FIREBASE ACTION: Target single node leaves to log member departure times
-window.checkOut = function(firebaseId) {
-    const timeOut = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    database.ref('attendance/' + firebaseId).update({
-        timeOut: timeOut
-    });
-};
-
 function updateDashboardMetrics() {
-    liveCounterEl.textContent = currentInsideCount;
-    totalVisitsEl.textContent = totalVisitsToday;
+    if (liveCounterEl) liveCounterEl.innerText = currentInsideCount;
+    if (totalVisitsEl) totalVisitsEl.innerText = totalVisitsToday;
 
-    if (currentInsideCount >= capacityLimit) {
-        alertEl.classList.remove('hidden');
-    } else {
-        alertEl.classList.add('hidden');
+    if (alertEl) {
+        if (currentInsideCount >= capacityLimit) {
+            alertEl.classList.remove('hidden');
+        } else {
+            alertEl.classList.add('hidden');
+        }
     }
 }
 
-// CSV Log Exporter
+// 📤 SUBMIT CAPTURED CHECK-INS
+if (form) {
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const name = nameInput.value.trim();
+        const purpose = purposeInput.value;
+
+        if (!name) return;
+
+        const timestamp = new Date();
+        let hours = timestamp.getHours();
+        const minutes = timestamp.getMinutes().toString().padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; 
+        const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes} ${ampm}`;
+
+        const newLogEntry = {
+            id: Date.now(),
+            name: name,
+            purpose: purpose,
+            timeIn: formattedTime,
+            timeOut: '-'
+        };
+
+        database.ref('attendance').push(newLogEntry, function(error) {
+            if (!error) {
+                form.reset();
+            } else {
+                alert('Database submission failed. Please verify connection.');
+            }
+        });
+    });
+}
+
+// 🕒 CHECK OUT CURRENT VISITOR
+window.checkOut = function(firebaseId) {
+    const timestamp = new Date();
+    let hours = timestamp.getHours();
+    const minutes = timestamp.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes} ${ampm}`;
+
+    const targetButton = document.getElementById(`btn-${firebaseId}`);
+    if (targetButton) {
+        targetButton.disabled = true;
+        targetButton.innerText = "Saving...";
+    }
+
+    database.ref('attendance/' + firebaseId).update({
+        timeOut: formattedTime
+    }).catch(function(err) {
+        alert("Checkout save failed.");
+        if (targetButton) {
+            targetButton.disabled = false;
+            targetButton.innerText = "Check Out";
+        }
+    });
+};
+
+// 📥 EXPORT ATTENDANCE REGISTRY
 if (exportBtn) {
     exportBtn.addEventListener('click', function() {
         if (attendanceData.length === 0) {
-            alert('No metrics records logged to output yet.');
+            alert("No available records to transfer.");
             return;
         }
 
@@ -184,13 +250,13 @@ if (exportBtn) {
     });
 }
 
-// Open the login modal window safely
+// Open login modal window safely
 window.openLoginModal = function(event) {
     if (event) event.preventDefault();
     toggleModal('login-modal');
 };
 
-// Close the login modal window safely
+// Close login modal window safely
 window.closeLoginModal = function() {
     toggleModal('login-modal');
     const loginForm = document.getElementById('login-form');
@@ -201,7 +267,6 @@ window.closeLoginModal = function() {
 window.handleLogin = function(event) {
     if (event) event.preventDefault();
     
-    // For now, let's auto-unlock the portal desk directly!
     const portalEl = document.getElementById('librarian-portal');
     if (portalEl) {
         portalEl.classList.remove('hidden');
