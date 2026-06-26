@@ -32,7 +32,7 @@ body {
 
 /* --- Glassmorphism Navigation Header --- */
 header {
-    background-color: rgba(30, 58, 138, 0.85);
+    background-color: rgba(30, 58, 138, 0.9);
     color: var(--white);
     display: flex;
     justify-content: space-between;
@@ -525,27 +525,10 @@ h2 {
 .contact-form textarea,
 .portal-form-box input,
 .portal-form-box select,
-.modal-box input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--border-color);
-    background-color: #f8fafc;
-    border-radius: 8px;
-    outline: none;
-    font-size: 0.95rem;
-    color: var(--text-dark);
-    transition: var(--transition);
-}
-
 .contact-form input:focus, 
 .contact-form textarea:focus,
 .portal-form-box input:focus,
 .portal-form-box select:focus,
-.modal-box input:focus {
-    border-color: var(--primary-blue);
-    background-color: var(--white);
-    box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.1);
-}
 
 .contact-submit-btn {
     width: 100%;
@@ -661,6 +644,13 @@ h2 {
     z-index: 2000;
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Connects cleanly with the JavaScript engine transition delay hooks */
+.modal-overlay.modal-active {
+    opacity: 1;
 }
 
 .modal-box {
@@ -672,6 +662,12 @@ h2 {
     position: relative;
     box-shadow: var(--shadow-lg);
     border: 1px solid var(--border-color);
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.modal-active .modal-box {
+    transform: translateY(0);
 }
 
 .modal-box h3 {
@@ -719,7 +715,7 @@ footer {
 
 
 /* ==========================================================================
-   📱 DYNAMIC MEDIA QUERIES FOR SEAMLESS MOBILE COMPATIBILITY (NO BREAKAGES)
+   📱 DYNAMIC MEDIA QUERIES FOR SEAMLESS VIEWPORT ADAPTABILITY
    ========================================================================== */
 
 @media (max-width: 1024px) {
@@ -755,10 +751,12 @@ footer {
 
     /* Hero Scaling */
     .hero {
-        height: 55vh;
+        height: auto;
+        min-height: 55vh;
+        padding: 3rem 1rem;
     }
     .hero-overlay {
-        padding: 2rem 1.5rem;
+        padding: 2.5rem 1.5rem;
     }
     .hero h1 {
         font-size: 2rem;
@@ -822,31 +820,14 @@ footer {
     }
 }
 
-@media (max-width: 480px) {
-    /* Small Phone Micro-Spacing Configurations */
-    .container {
-        padding: 3rem 1rem;
-    }
-    .hero h1 {
-        font-size: 1.65rem;
-    }
-    
-    /* Chart Panel Optimization */
-    #librarian-portal div[style*="height: 140px"] {
-        padding: 0 0.25rem !important;
-        gap: 0.25rem !important;
-    }
-    #librarian-portal span[style*="font-size: 0.75rem"] {
-        font-size: 0.65rem !important;
-    }
-
-    /* Rigid Table Restructuring into Clean Stacked Rows */
+@media (max-width: 520px) {
+    /* Responsive styling for active attendance logs before standard layout limits break */
     .log-table, .log-table thead, .log-table tbody, .log-table th, .log-table td, .log-table tr {
         display: block;
         width: 100%;
     }
     .log-table thead {
-        display: none; /* Hide header columns safely on tiny viewports */
+        display: none; /* Hide header columns gracefully on small screens */
     }
     .log-table tr {
         border: 1px solid var(--border-color);
@@ -858,25 +839,565 @@ footer {
     }
     .log-table td {
         border-bottom: 1px solid #f1f5f9;
-        padding: 0.5rem 0 !important;
+        padding: 0.6rem 0 !important;
         text-align: left !important;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: 0.5rem;
     }
     .log-table td:last-child {
         border-bottom: none;
         padding-top: 0.75rem !important;
         justify-content: flex-end;
     }
-    /* Dynamic Pseudo-label injection to prevent data misinterpretation */
+    /* Dynamic Pseudo-label injection to maintain readable alignment context */
     .log-table td:nth-of-type(1)::before { content: "Learner: "; font-weight: 700; color: var(--text-muted); font-size: 0.8rem; }
     .log-table td:nth-of-type(2)::before { content: "Purpose: "; font-weight: 700; color: var(--text-muted); font-size: 0.8rem; }
     .log-table td:nth-of-type(3)::before { content: "Time Arrived: "; font-weight: 700; color: var(--text-muted); font-size: 0.8rem; }
+}
+
+@media (max-width: 480px) {
+    /* Small Phone Micro-Spacing Configurations */
+    .container {
+        padding: 3rem 1rem;
+    }
+    .hero h1 {
+        font-size: 1.65rem;
+    }
     
+    /* Dynamic chart component inline selector adjustments */
+    #librarian-portal div[style*="height: 140px"],
+    #librarian-portal div[style*="height:140px"] {
+        padding: 0 0.25rem !important;
+        gap: 0.25rem !important;
+    }
+    #librarian-portal span[style*="font-size: 0.75rem"],
+    #librarian-portal span[style*="font-size:0.75rem"] {
+        font-size: 0.65rem !important;
+    }
+
     /* Login Modal Overlay Adaptations */
     .modal-box {
         padding: 1.75rem;
         margin: 0 1rem;
     }
+}
+
+/* --- Neonish Authentication Overlay Box --- */
+.modal-box {
+    background: #090d16; /* Deep midnight-cyber backdrop */
+    padding: 2.5rem;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 420px;
+    position: relative;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+    
+    /* Layered neon cyber-glow shadows using your emerald green tint */
+    border: 2px solid #10b981;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.2),
+                0 0 25px rgba(16, 185, 129, 0.2),
+                inset 0 0 15px rgba(16, 185, 129, 0.1);
+}
+
+/* Bright neon text adjustments inside the modal */
+.modal-box h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #10b981;
+    text-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+    margin-bottom: 0.5rem;
+}
+
+.modal-box p {
+    color: #94a3b8 !important; /* High contrast readable subtext */
+}
+
+/* Neon Form Label Controls */
+.modal-box .form-group label {
+    color: #34d399 !important;
+    text-shadow: 0 0 4px rgba(52, 211, 153, 0.3);
+}
+
+/* Glowing input field adjustments inside the modal box */
+.modal-box input {
+    background-color: #111827 !important;
+    border: 1px solid #1e293b !important;
+    color: #f8fafc !important;
+    transition: var(--transition);
+}
+
+.modal-box input:focus {
+    border-color: #34d399 !important;
+    background-color: #0f172a !important;
+    box-shadow: 0 0 12px rgba(52, 211, 153, 0.5) !important;
+}
+
+/* Dismissal control matching the neon palette */
+.close-modal {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #64748b;
+    transition: var(--transition);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.close-modal:hover {
+    color: #10b981;
+    background-color: rgba(16, 185, 129, 0.1);
+    text-shadow: 0 0 5px #10b981;
+}
+
+/* High-intensity glow submission button */
+.modal-box .contact-submit-btn {
+    background-color: #10b981;
+    color: #090d16;
+    font-weight: 800;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+}
+
+.modal-box .contact-submit-btn:hover {
+    background-color: #34d399;
+    box-shadow: 0 0 25px rgba(52, 211, 153, 0.8);
+    transform: scale(1.02);
+}
+
+/* --- High-Intensity Neon Form Inputs & Select Elements --- */
+.contact-form input, 
+.contact-form textarea,
+.portal-form-box input,
+.portal-form-box select,
+.modal-box input {
+    background-color: #0b0f19 !important; /* Deep midnight space backdrop */
+    border: 2px solid #10b981 !important; /* Electric emerald border base */
+    color: #f8fafc !important; /* High contrast text color */
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    outline: none;
+    font-size: 0.95rem;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Elegant soft glow ambient footprint */
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.15),
+                inset 0 0 6px rgba(16, 185, 129, 0.05);
+}
+
+/* Neon Form Label Indicators */
+.form-group label {
+    color: #34d399 !important; /* Radiant matrix green text */
+    font-weight: 700;
+    text-shadow: 0 0 5px rgba(52, 211, 153, 0.4);
+    letter-spacing: 0.05em;
+}
+
+/* Hyper-Drive Focused Active States */
+.contact-form input:focus, 
+.contact-form textarea:focus,
+.portal-form-box input:focus,
+.portal-form-box select:focus,
+.modal-box input:focus {
+    border-color: #34d399 !important; /* Brightens on user selection */
+    background-color: #020617 !important; /* Darkens core for deep space effect */
+    color: #ffffff !important;
+    
+    /* Maximum neon glow radiation outward and inward */
+    box-shadow: 0 0 15px rgba(52, 211, 153, 0.6),
+                0 0 30px rgba(16, 185, 129, 0.2),
+                inset 0 0 10px rgba(52, 211, 153, 0.2) !important;
+}
+
+/* --- Matching Cyberpunk Neon Action Buttons --- */
+.contact-submit-btn,
+.portal-btn,
+.modal-box .contact-submit-btn {
+    background-color: #10b981 !important;
+    color: #020617 !important; /* High contrast dark text inside neon container */
+    font-weight: 800 !important;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: none !important;
+    box-shadow: 0 0 14px rgba(16, 185, 129, 0.45) !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.contact-submit-btn:hover,
+.portal-btn:hover,
+.modal-box .contact-submit-btn:hover {
+    background-color: #34d399 !important;
+    box-shadow: 0 0 25px rgba(52, 211, 153, 0.85),
+                0 0 40px rgba(16, 185, 129, 0.3) !important;
+    transform: translateY(-2px) scale(1.01);
+}
+
+.contact-submit-btn:active,
+.portal-btn:active,
+.modal-box .contact-submit-btn:active {
+    transform: translateY(0) scale(1);
+}
+/* --- Crisp Light Neon Form Inputs & Select Elements --- */
+.contact-form input, 
+.contact-form textarea,
+.portal-form-box input,
+.portal-form-box select,
+.modal-box input {
+    background-color: var(--white) !important; /* Keep it bright and clean */
+    border: 2px solid #10b981 !important; /* Vibrant neon emerald frame */
+    color: var(--text-dark) !important;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    outline: none;
+    font-size: 0.95rem;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Soft neon ambient glow footprint */
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.12);
+}
+
+/* Neon Form Label Indicators */
+.form-group label {
+    color: #059669 !important; /* Sharp emerald green */
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+/* Focused Active States with Enhanced Neon Glow */
+.contact-form input:focus, 
+.contact-form textarea:focus,
+.portal-form-box input:focus,
+.portal-form-box select:focus,
+.modal-box input:focus {
+    border-color: #10b981 !important;
+    background-color: var(--white) !important;
+    
+    /* Intense outer neon glow on interaction */
+    box-shadow: 0 0 0 1px #10b981, 
+                0 0 14px rgba(16, 185, 129, 0.4) !important;
+}
+
+/* --- High-Energy Neon Action Buttons --- */
+.contact-submit-btn,
+.portal-btn,
+.modal-box .contact-submit-btn {
+    background-color: #10b981 !important;
+    color: var(--white) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3) !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.contact-submit-btn:hover,
+.portal-btn:hover,
+.modal-box .contact-submit-btn:hover {
+    background-color: #059669 !important;
+    box-shadow: 0 6px 20px rgba(5, 150, 105, 0.45) !important;
+    transform: translateY(-2px);
+}
+
+/* --- Crisp, Bright About Us Content Style --- */
+.about-section-container {
+    background-color: var(--white); /* Stays light and elegant */
+    color: var(--text-dark);
+}
+
+.about-essence-card h3 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #059669; /* Neon-tinted dark emerald */
+    margin-bottom: 1.25rem;
+}
+
+.about-essence-card p {
+    margin-bottom: 1.25rem;
+    color: #475569;
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+/* Premium Image Frame Highlight */
+.library-premium-pic {
+    width: 100%;
+    height: 380px;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 2px solid #10b981;
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.15);
+    position: relative;
+    z-index: 2;
+}
+
+/* Decorative backdrop plate tweaked to match neon accents */
+.visual-decorative-backdrop {
+    position: absolute;
+    top: 20px;
+    left: -20px;
+    width: 100%;
+    height: 100%;
+    background-color: #f0fdf4; /* Very light fresh mint tint */
+    border: 1px solid rgba(16, 185, 129, 0.15);
+    border-radius: 16px;
+    z-index: 1;
+}
+
+/* Interactive Feature Grid Cards on Light Layout */
+.interactive-feature-card {
+    background: var(--white);
+    padding: 2.5rem 2rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    flex: 1 1 280px;
+    text-align: left;
+    transition: var(--transition);
+}
+
+.interactive-feature-card:hover {
+    transform: translateY(-5px);
+    border-color: #10b981;
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.12);
+}
+
+/* Neon Feature Shield Icons */
+.feature-icon-shield {
+    font-size: 2rem;
+    margin-bottom: 1.25rem;
+    background: #f0fdf4;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.interactive-feature-card h3 {
+    font-size: 1.25rem;
+    color: #059669;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+/* --- Authentication Modal Overlay Reset --- */
+.modal-box {
+    background: var(--white) !important;
+    border: 2px solid #10b981 !important;
+    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2) !important;
+}
+
+.modal-box h3 {
+    color: #059669 !important;
+}
+
+.modal-box p {
+    color: var(--text-muted) !important;
+}
+
+/* --- Crisp Light Neon Schedule Component --- */
+.schedule-display-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 4rem;
+}
+
+.schedule-card {
+    background: var(--white);
+    width: 100%;
+    max-width: 550px;
+    border-radius: 14px;
+    border: 2px solid #10b981; /* Electric neon emerald perimeter */
+    overflow: hidden;
+    
+    /* Neon glow footprint on the card */
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.12),
+                0 0 15px rgba(16, 185, 129, 0.05);
+    transition: var(--transition);
+}
+
+.schedule-card:hover {
+    transform: translateY(-3px);
+    /* Intensified active neon glow on hover */
+    box-shadow: 0 12px 30px rgba(16, 185, 129, 0.2),
+                0 0 20px rgba(16, 185, 129, 0.1);
+}
+
+.schedule-header {
+    background: #10b981; /* Shifted header to electric emerald */
+    color: var(--white);
+    padding: 1.25rem;
+    text-align: center;
+    position: relative;
+}
+
+.schedule-header h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    /* Soft text glow effect */
+    text-shadow: 0 1px 4px rgba(255, 255, 255, 0.3);
+}
+
+.schedule-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.1rem 1.75rem;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.schedule-row:last-child {
+    border-bottom: none;
+}
+
+.schedule-row:hover {
+    background-color: #f0fdf4; /* Light tint row highlight on mouseover */
+}
+
+.day-label {
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.time-window {
+    color: #059669; /* Sharp emerald timeline text */
+    font-weight: 600;
+}
+
+/* Graceful Closed Indicator Variations */
+.closed-day {
+    background-color: #fef2f2;
+}
+
+.closed-day:hover {
+    background-color: #fee2e2; /* Keep warning color stable on row hover */
+}
+
+.closed-status {
+    color: #dc2626;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+/* --- High-Energy Light Neon Contact Section --- */
+.contact-wrapper {
+    display: flex;
+    gap: 4rem;
+    text-align: left;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.contact-info, .contact-form-container {
+    flex: 1 1 350px;
+}
+
+/* Neon Emerald Branding Header */
+.contact-info h3 {
+    color: #059669; /* Neon-tinted deep emerald */
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-shadow: 0 1px 2px rgba(16, 185, 129, 0.1);
+}
+
+.contact-info > p {
+    color: #475569;
+    margin-bottom: 2.5rem;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+/* Glowing Neon Info Item Rows */
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.info-item:hover {
+    background-color: #f0fdf4; /* Subtle glow response on hover */
+}
+
+/* Radiant Info Icons */
+.info-icon {
+    font-size: 1.35rem;
+    background: #f0fdf4;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #10b981; /* Neon border ring */
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+    flex-shrink: 0;
+    transition: var(--transition);
+}
+
+.info-item:hover .info-icon {
+    transform: scale(1.08);
+    box-shadow: 0 0 14px rgba(16, 185, 129, 0.45);
+}
+
+.info-item h4 {
+    color: var(--text-dark);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.info-item p {
+    color: #64748b;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+/* --- Dynamic CSS Text Injection Replacement --- */
+/* Seamlessly intercepts the original phone layout and prints the new number */
+.info-item:nth-of-type(2) p {
+    visibility: hidden;
+    position: relative;
+}
+
+.info-item:nth-of-type(2) p::after {
+    content: "+254 718 896 349 (During Open Hours)";
+    visibility: visible;
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-width: max-content;
+    color: #059669; /* Accents the new number in sharp neon emerald */
+    font-weight: 600;
+}
+
+/* --- Glowing Neon Form Box Container --- */
+.contact-form-container {
+    background: var(--white);
+    padding: 2.5rem;
+    border-radius: 16px;
+    border: 2px solid #10b981; /* Matches the neon layout theme */
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.12);
+    transition: var(--transition);
+}
+
+.contact-form-container:hover {
+    box-shadow: 0 12px 32px rgba(16, 185, 129, 0.18);
 }
