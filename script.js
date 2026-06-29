@@ -29,7 +29,7 @@ window.toggleModal = function(modalId) {
 let currentInsideCount = 0;
 let totalVisitsToday = 0;
 const capacityLimit = 15; 
-let attendanceData = [];
+let allAttendanceData = []; // Holds all records fetched from Firebase
 
 // DOM Query Targets
 const form = document.getElementById('checkin-form');
@@ -47,6 +47,12 @@ const purposeStyles = {
     'Group Project': 'bg-white text-blue-700 border-blue-300',
     'Tutoring': 'bg-emerald-600 text-white border-emerald-600'
 };
+
+// Helper function to get today's date string (YYYY-MM-DD)
+function getTodayDateString() {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+}
 
 // Graphical Data Analysis Sync Engine
 function updateAttendanceChart(records) {
@@ -87,67 +93,81 @@ function updateAttendanceChart(records) {
     if (barAfternoon) barAfternoon.style.height = `${(afternoon / total) * 100}%`;
 }
 
-// 📥 FIREBASE STREAMING: Read records and auto-sync updates live
+// FIREBASE STREAMING: Read records and auto-sync updates live
 database.ref('attendance').on('value', function(snapshot) {
     if (!tableBody) return;
     
     tableBody.innerHTML = ''; 
-    attendanceData = [];
+    allAttendanceData = [];
     currentInsideCount = 0;
     totalVisitsToday = 0;
     
     const data = snapshot.val();
     
     if (!data) {
-        tableBody.innerHTML = `
-            <tr id="empty-state">
-                <td colspan="4" style="text-align: center; color: #9ca3af; padding: 2rem; font-style: italic;">No learners checked in yet today.</td>
-            </tr>`;
+        renderEmptyState();
         updateDashboardMetrics();
         updateAttendanceChart([]);
         return;
     }
 
+    // Process all entries from Firebase
     Object.keys(data).forEach(key => {
         const item = data[key];
         item.firebaseId = key; 
-        attendanceData.push(item);
-        
-        totalVisitsToday++;
-        if (item.timeOut === '-') {
-            currentInsideCount++;
-        }
+        allAttendanceData.push(item);
     });
 
-    attendanceData.sort((a, b) => b.id - a.id);
+    // Filter down to ONLY today's entries for the live UI metrics and logs
+    const todayStr = getTodayDateString();
+    const todaysRecords = allAttendanceData.filter(row => row.date === todayStr);
 
-    attendanceData.forEach(row => {
-        const styleClass = purposeStyles[row.purpose] || 'bg-white text-slate-700 border-slate-300';
-        const tr = document.createElement('tr');
-        tr.className = "hover:bg-slate-50/80 transition duration-150 border-b border-blue-50";
-        
-        let actionColumnHtml = '';
-        if (row.timeOut === '-') {
-            actionColumnHtml = `
-                <button onclick="checkOut('${row.firebaseId}')" id="btn-${row.firebaseId}" class="text-xs bg-white hover:bg-emerald-50 text-blue-600 hover:text-emerald-600 py-1.5 px-3 rounded-lg border-2 border-blue-100 hover:border-emerald-300 transition duration-200 font-bold cursor-pointer">
-                    Check Out
-                </button>`;
-        } else {
-            actionColumnHtml = `<span class="text-xs text-slate-400 font-medium">${row.timeOut}</span>`;
-        }
+    if (todaysRecords.length === 0) {
+        renderEmptyState();
+    } else {
+        // Sort today's entries so newest is up top
+        todaysRecords.sort((a, b) => b.id - a.id);
 
-        tr.innerHTML = `
-            <td style="font-weight: 600; color: var(--primary-blue);">${row.name}</td>
-            <td><span class="purpose-badge ${styleClass}">${row.purpose}</span></td>
-            <td style="font-family: monospace; font-size: 0.85rem;">${row.timeIn}</td>
-            <td style="text-align: right;">${actionColumnHtml}</td>
-        `;
-        tableBody.appendChild(tr);
-    });
+        todaysRecords.forEach(row => {
+            totalVisitsToday++;
+            if (row.timeOut === '-') {
+                currentInsideCount++;
+            }
+
+            const styleClass = purposeStyles[row.purpose] || 'bg-white text-slate-700 border-slate-300';
+            const tr = document.createElement('tr');
+            tr.className = "hover:bg-slate-50/80 transition duration-150 border-b border-blue-50";
+            
+            let actionColumnHtml = '';
+            if (row.timeOut === '-') {
+                actionColumnHtml = `
+                    <button onclick="checkOut('${row.firebaseId}')" id="btn-${row.firebaseId}" class="text-xs bg-white hover:bg-emerald-50 text-blue-600 hover:text-emerald-600 py-1.5 px-3 rounded-lg border-2 border-blue-100 hover:border-emerald-300 transition duration-200 font-bold cursor-pointer">
+                        Check Out
+                    </button>`;
+            } else {
+                actionColumnHtml = `<span class="text-xs text-slate-400 font-medium">${row.timeOut}</span>`;
+            }
+
+            tr.innerHTML = `
+                <td style="font-weight: 600; color: var(--primary-blue);">${row.name}</td>
+                <td><span class="purpose-badge ${styleClass}">${row.purpose}</span></td>
+                <td style="font-family: monospace; font-size: 0.85rem;">${row.timeIn}</td>
+                <td style="text-align: right;">${actionColumnHtml}</td>
+            `;
+            tableBody.appendChild(tr);
+        });
+    }
 
     updateDashboardMetrics();
-    updateAttendanceChart(attendanceData);
+    updateAttendanceChart(todaysRecords);
 });
+
+function renderEmptyState() {
+    tableBody.innerHTML = `
+        <tr id="empty-state">
+            <td colspan="4" style="text-align: center; color: #9ca3af; padding: 2rem; font-style: italic;">No learners checked in yet today.</td>
+        </tr>`;
+}
 
 function updateDashboardMetrics() {
     if (liveCounterEl) liveCounterEl.innerText = currentInsideCount;
@@ -162,7 +182,7 @@ function updateDashboardMetrics() {
     }
 }
 
-// 📤 SUBMIT CAPTURED CHECK-INS
+// SUBMIT CAPTURED CHECK-INS
 if (form) {
     form.addEventListener('submit', function(event) {
         event.preventDefault();
@@ -182,6 +202,7 @@ if (form) {
 
         const newLogEntry = {
             id: Date.now(),
+            date: getTodayDateString(), // NEW: Explicitly tracks calendar day
             name: name,
             purpose: purpose,
             timeIn: formattedTime,
@@ -198,7 +219,7 @@ if (form) {
     });
 }
 
-// 🕒 CHECK OUT CURRENT VISITOR
+// CHECK OUT CURRENT VISITOR
 window.checkOut = function(firebaseId) {
     const timestamp = new Date();
     let hours = timestamp.getHours();
@@ -225,25 +246,37 @@ window.checkOut = function(firebaseId) {
     });
 };
 
-// 📥 EXPORT ATTENDANCE REGISTRY
+// EXPORT ATTENDANCE REGISTRY FOR ANY SELECTED DAY
 if (exportBtn) {
     exportBtn.addEventListener('click', function() {
-        if (attendanceData.length === 0) {
+        if (allAttendanceData.length === 0) {
             alert("No available records to transfer.");
             return;
         }
 
-        let csvContent = "data:text/csv;charset=utf-8,";
-        csvContent += "Name,Purpose of Visit,Time In,Time Out\n";
+        // Prompt user to pick a target date
+        const targetDate = prompt("Enter the date you want to export (YYYY-MM-DD):", getTodayDateString());
+        if (!targetDate) return; // User cancelled
 
-        attendanceData.forEach(function(row) {
-            csvContent += `"${row.name}","${row.purpose}","${row.timeIn}","${row.timeOut}"\n`;
+        // Filter the system array to only entries matching chosen day
+        const targetRecords = allAttendanceData.filter(row => row.date === targetDate);
+
+        if (targetRecords.length === 0) {
+            alert(`No history entries found on ${targetDate}. Ensure correct format (YYYY-MM-DD).`);
+            return;
+        }
+
+        let csvContent = "data:text/csv;charset=utf-8,";
+        csvContent += "Date,Name,Purpose of Visit,Time In,Time Out\n";
+
+        targetRecords.forEach(function(row) {
+            csvContent += `"${row.date}","${row.name}","${row.purpose}","${row.timeIn}","${row.timeOut}"\n`;
         });
 
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
-        link.setAttribute("download", `AMG_Library_Log_${new Date().toISOString().slice(0,10)}.csv`);
+        link.setAttribute("download", `AMG_Library_Log_${targetDate}.csv`);
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
