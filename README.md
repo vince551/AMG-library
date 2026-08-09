@@ -1,41 +1,75 @@
-# 📚 AMG Community Library Website & Visitor Log System
+<div align="center">
 
-A modern, highly responsive community library portal built with a clean **Blue, White, and Green** aesthetic. This platform includes public-facing sections (About Us, Curated Book Catalog, Contact Form) alongside a secure, Firebase-backed **Librarian Desk Dashboard** for checking in and checking out library visitors in real-time.
+# 📚 AMG COMMUNITY LIBRARY
+### **Library Portal · Visitor Management · Live Dashboard**
 
----
+![Status](https://img.shields.io/badge/STATUS-ACTIVE-10B981?style=for-the-badge)
+![Frontend](https://img.shields.io/badge/FRONTEND-HTML%20%7C%20CSS%20%7C%20JS-1E3A8A?style=for-the-badge)
+![Backend](https://img.shields.io/badge/BACKEND-FIREBASE-FFCA28?style=for-the-badge&logo=firebase&logoColor=111111)
 
-## 🎨 Theme & Visual Palette
-* **Primary Blue (`#1e3a8a`):** Used for navigation headers, section titles, and key dashboard metrics to inspire trustworthiness and depth.
-* **Accent Green (`#10b981`):** Highlights active elements, action buttons, successful metrics, and positive focus states.
-* **Soft Tint Green (`#f0fdf4`):** Soft background blocks and zebra striping that ensure high readability without visual fatigue.
+**A responsive community-library portal with a Firebase-backed librarian desk.**
 
----
-
-## ✨ Features
-
-### 🌐 Public Portal
-1. **Hero Header:** A sleek landing interface presenting full-bleed photography overlays wrapped in community welcoming messages.
-2. **About Us Layout:** An elegant block detailing the library's mission statement, feature cards highlighting resources, and a clean working schedule matrix.
-3. **Curated Book Catalog:** Organizes physical and virtual copies under dynamic categories (Children's Classics, Coding & Technology, and Global Current Events) featuring live legal links to read digital books immediately.
-4. **Interactive Contact Form:** A clean form matching user theme choices with dynamic border-glowing effects upon text selection.
-
-### 🔒 Secure Librarian Desk
-* **Credential Authentication:** Protected behind a login layer prompt linked from the main menu navigation bar.
-* **Real-time Visitor Check-In:** Form submission tracks attendee name and purpose, automatically computing exact arrival intervals.
-* **Live Metrics Counters:** Monitors concurrent active visitors inside the facility and logs historical summary counts for that day.
-* **Over-Capacity Detection Alert:** Triggers a sticky warning container instantly if building capacity passes safe thresholds (Default: 15 learners).
-* **Persistent Cloud Syncing:** Connected natively with **Firebase Realtime Database** so that updates broadcast live across any viewing terminal.
-* **Data Spreadsheet Exporter:** Includes a single-click script to parse cloud logs and compile them instantly into a clean downloadable `.csv` spreadsheet file.
+</div>
 
 ---
 
-## 📁 Project Structure
+## ✦ Overview
+
+AMG Community Library combines a public library experience with a secure operational dashboard for visitor management.
+
+## 🌐 Public Portal
+
+- Library information and mission
+- Curated physical and digital book catalog
+- Category-based resources
+- Contact experience
+- Responsive presentation
+
+## 🔒 Librarian Desk
+
+- Protected authentication layer
+- Real-time visitor check-in / check-out
+- Active visitor metrics
+- Capacity alerts
+- Cloud synchronization
+- CSV data export
+
+## 🧱 Stack
+
+`HTML5` · `CSS3` · `JavaScript` · `Firebase Realtime Database`
+
+## 📁 Structure
 
 ```text
 amg-library/
-├── index.html     # Main application markup & view structure
-├── script.js      # App controller logic & Firebase live streams
-├── style.css      # Core theme stylings & responsive layouts
-└── images/        # Asset repository
-    ├── logo.jpg   # Brand mark asset
-    └── bck.jpg    # Hero interface landing photography
+├── index.html
+├── script.js
+├── style.css
+└── images/
+```
+
+## 🚀 Local Setup
+
+```bash
+git clone https://github.com/vince551/AMG-library.git
+cd AMG-library
+```
+
+Use a local development server when working with Firebase modules or browser APIs.
+
+## 🔐 Production Checklist
+
+- Restrict Firebase database rules
+- Never expose privileged credentials in frontend code
+- Validate visitor data server-side where appropriate
+- Configure backups and access auditing
+
+## 👨‍💻 Author
+
+**Vince Odhiambo**
+
+Web developer · community technology builder
+
+---
+
+<p align="center"><sub>Technology that helps communities read, learn and connect.</sub></p>
