@@ -1,0 +1,10 @@
+{
+  "name": "AMG FOUNDATION Community Library",
+  "short_name": "AMG Library",
+  "description": "Smart Library & Learning Hub",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f8fc",
+  "theme_color": "#2563eb",
+  "icons": []
+}
