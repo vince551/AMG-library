@@ -1,45 +1,4 @@
-import { BookOpen, Brain, Library, Search, Users } from 'lucide-react';
-
-const features = [
-  ['Library Management', 'Books, borrowers, returns, inventory and overdue tracking.', Library],
-  ['Learning Centre', 'Notes, past papers, quizzes, study tools and digital resources.', Brain],
-  ['Smart Search', 'Find books and learning resources by subject, form, topic or type.', Search],
-  ['Community', 'Connect learners, teachers, parents and librarians around learning.', Users],
-] as const;
-
-export default function Home() {
-  return (
-    <main className="min-h-screen">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
-        <div className="flex items-center gap-3 font-bold">
-          <div className="rounded-xl bg-blue-600 p-2 text-white"><BookOpen size={22} /></div>
-          <span>AMG FOUNDATION</span>
-        </div>
-        <div className="hidden gap-6 text-sm md:flex"><a href="#library">Library</a><a href="#learning">Learning</a><a href="#about">About</a></div>
-        <button className="rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white">Sign in</button>
-      </nav>
-
-      <section className="mx-auto grid max-w-7xl gap-12 px-6 pb-20 pt-16 md:grid-cols-2 md:items-center">
-        <div>
-          <span className="rounded-full bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700">SMART LIBRARY & LEARNING HUB</span>
-          <h1 className="mt-6 text-5xl font-black tracking-tight md:text-7xl">A library built for <span className="text-blue-600">learning.</span></h1>
-          <p className="mt-6 max-w-xl text-lg leading-8 text-slate-600">AMG FOUNDATION Community Library brings library management and digital learning together—helping librarians work smarter and learners discover more.</p>
-          <div className="mt-8 flex flex-wrap gap-3"><button className="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white">Explore Library</button><button className="rounded-xl border border-slate-200 bg-white px-6 py-3 font-semibold">Learning Centre</button></div>
-        </div>
-        <div className="rounded-3xl bg-slate-900 p-8 text-white shadow-2xl">
-          <div className="mb-6 flex items-center justify-between"><span className="font-semibold">Library Overview</span><span className="rounded-full bg-emerald-400/20 px-3 py-1 text-xs text-emerald-300">Live</span></div>
-          <div className="grid grid-cols-2 gap-4"><Stat label="Books" value="1,248" /><Stat label="Learners" value="327" /><Stat label="Available" value="1,164" /><Stat label="Overdue" value="12" /></div>
-        </div>
-      </section>
-
-      <section id="library" className="mx-auto max-w-7xl px-6 py-20"><div className="grid gap-5 md:grid-cols-4">{features.map(([title, text, Icon]) => <article key={title} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><Icon className="text-blue-600" size={26} /><h2 className="mt-5 font-bold">{title}</h2><p className="mt-2 text-sm leading-6 text-slate-500">{text}</p></article>)}</div></section>
-
-      <section id="learning" className="bg-white px-6 py-20"><div className="mx-auto max-w-7xl"><h2 className="text-3xl font-black">Everything learners need to keep growing.</h2><p className="mt-3 max-w-2xl text-slate-500">Study smarter with structured resources, interactive quizzes, reading tools and a future AI learning assistant.</p></div></section>
-      <footer id="about" className="border-t border-slate-200 px-6 py-8 text-center text-sm text-slate-500">© {new Date().getFullYear()} AMG FOUNDATION Community Library</footer>
-    </main>
-  );
-}
-
-function Stat({ label, value }: { label: string; value: string }) {
-  return <div className="rounded-2xl bg-white/10 p-5"><div className="text-3xl font-black">{value}</div><div className="mt-1 text-sm text-slate-300">{label}</div></div>;
-}
+import AppShell from '@/components/app-shell'; import { ArrowUpRight, BookOpen, CalendarDays, TrendingUp, Users, AlertTriangle } from 'lucide-react';
+const activity=[['Achieng Otieno','borrowed','Biology Today','10 min ago'],['Brian Ouma','returned','The River Between','34 min ago'],['Faith Akinyi','reserved','Physics for Schools','1 hr ago'],['Kevin Onyango','borrowed','Essential Mathematics','2 hrs ago']];
+export default function Dashboard(){return <AppShell><section className="mx-auto max-w-7xl px-5 py-8"><div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="font-semibold text-blue-600">LIBRARY OVERVIEW</p><h1 className="mt-1 text-4xl font-black">Good morning, Admin.</h1><p className="mt-2 text-slate-500">Here is what is happening at AMG FOUNDATION today.</p></div><div className="flex items-center gap-2 rounded-xl border bg-white px-4 py-3 text-sm font-semibold"><CalendarDays size={17}/> Aug 21, 2026</div></div><div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4"><Stat title="Total books" value="1,248" trend="+38 this month" icon={<BookOpen/>}/><Stat title="Registered learners" value="327" trend="+14 this month" icon={<Users/>}/><Stat title="Active loans" value="72" trend="18 due this week" icon={<TrendingUp/>}/><Stat title="Overdue" value="12" trend="Needs attention" icon={<AlertTriangle/>} danger/></div><div className="mt-8 grid gap-6 lg:grid-cols-[1.4fr_1fr]"><section className="rounded-2xl border bg-white"><div className="flex items-center justify-between border-b p-5"><div><h2 className="font-black">Recent activity</h2><p className="text-sm text-slate-500">Live circulation activity</p></div><button className="text-sm font-bold text-blue-600">View all</button></div><div>{activity.map(a=><div key={a[0]+a[2]} className="flex items-center gap-4 border-b p-5 last:border-0"><div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-blue-50 font-bold text-blue-700">{a[0][0]}</div><div className="min-w-0 flex-1"><p className="text-sm"><b>{a[0]}</b> {a[1]} <b>{a[2]}</b></p><p className="mt-1 text-xs text-slate-400">{a[3]}</p></div><ArrowUpRight size={17} className="text-slate-400"/></div>)}</div></section><section className="rounded-2xl bg-slate-900 p-6 text-white"><p className="text-sm font-semibold text-blue-300">THIS MONTH</p><h2 className="mt-2 text-2xl font-black">Library impact</h2><p className="mt-2 text-sm text-slate-400">Your community is reading more every week.</p><div className="mt-8 space-y-5"><Bar label="Books borrowed" value="84%" width="84%"/><Bar label="Learning resources opened" value="72%" width="72%"/><Bar label="On-time returns" value="91%" width="91%"/></div><button className="mt-8 w-full rounded-xl bg-blue-600 py-3 font-bold">View full analytics</button></section></div></section></AppShell>}
+function Stat({title,value,trend,icon,danger=false}:{title:string;value:string;trend:string;icon:React.ReactNode;danger?:boolean}){return <div className="rounded-2xl border bg-white p-5"><div className="flex justify-between"><span className={danger?'text-red-500':'text-blue-600'}>{icon}</span><span className="text-xs font-bold text-slate-400">TODAY</span></div><p className="mt-5 text-3xl font-black">{value}</p><p className="mt-1 text-sm font-semibold">{title}</p><p className={`mt-2 text-xs ${danger?'text-red-500':'text-emerald-600'}`}>{trend}</p></div>};function Bar({label,value,width}:{label:string;value:string;width:string}){return <div><div className="mb-2 flex justify-between text-sm"><span>{label}</span><b>{value}</b></div><div className="h-2 rounded-full bg-white/10"><div className="h-2 rounded-full bg-blue-400" style={{width}}/></div></div>}
