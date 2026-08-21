@@ -1,455 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMG Community Library</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b3d35" />
+  <meta name="description" content="AMG FOUNDATION Community Library — books, learning resources, study tools and community reading." />
+  <title>AMG FOUNDATION Community Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="announcement"><span>📚</span> Welcome to AMG FOUNDATION Community Library <span class="announcement-dot"></span> Read. Learn. Grow.</div>
 
-    <header>
-        <div class="logo">
-            <img src="images/logo.jpg" alt="Library Logo" style="height: 40px; vertical-align: middle;"> AMG LIBRARY
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#" onclick="window.openLoginModal(event)">Librarian Desk</a></li>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About Us</a></li>
-                <li><a href="#catalog">Catalog</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <div id="login-modal" class="modal-overlay hidden">
-        <div class="modal-box">
-            <span class="close-modal" onclick="closeLoginModal()">&times;</span>
-            <h3>Librarian Authentication</h3>
-            <p style="font-size: 0.9rem; color: #6b7280; margin-bottom: 1.5rem;">Please enter your credentials to access the registration log desk.</p>
-            <form id="login-form" onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label for="lib-username">Librarian Name</label>
-                    <input type="text" id="lib-username" placeholder="Username" required>
-                </div>
-                <div class="form-group">
-                    <label for="lib-password">Password</label>
-                    <input type="password" id="lib-password" placeholder="••••••••" required>
-                </div>
-                <p id="login-error" class="hidden" style="color: #dc2626; font-size: 0.85rem; font-weight: bold; margin-bottom: 1rem;">❌ Invalid name or password!</p>
-                <button type="submit" class="btn portal-btn">Access Desk</button>
-            </form>
-        </div>
+  <header class="site-header" id="top">
+    <div class="container nav-wrap">
+      <a class="brand" href="#top" aria-label="AMG FOUNDATION Community Library home">
+        <span class="brand-mark"><img src="images/logo.jpg" alt="AMG Foundation logo" /></span>
+        <span><strong>AMG FOUNDATION</strong><small>Community Library</small></span>
+      </a>
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="#books">Books</a><a href="#learning">Learning</a><a href="#about">About</a><a href="#contact">Contact</a>
+      </nav>
+      <div class="nav-actions"><button class="icon-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle dark mode">☾</button><button class="btn btn-dark" id="loginBtn">Sign in</button><button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button></div>
     </div>
+    <div class="mobile-menu" id="mobileMenu"><a href="#books">Books</a><a href="#learning">Learning</a><a href="#about">About</a><a href="#contact">Contact</a><button class="btn btn-dark" id="mobileLogin">Sign in</button></div>
+  </header>
 
-    <section id="home" class="hero">
-        <div class="hero-overlay">
-            <h1>Welcome to AMG Community Library</h1>
-            <p>Discover worlds, connect with neighbors, and grow your mind.</p>
-            <a href="#catalog" class="btn">Explore Catalog</a>
+  <main>
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">YOUR COMMUNITY • YOUR LIBRARY</span>
+          <h1>A place to <em>read, learn</em> and grow together.</h1>
+          <p>Discover books, explore learning resources, build better study habits and connect with a community that believes knowledge should be accessible to everyone.</p>
+          <div class="hero-buttons"><a href="#books" class="btn btn-primary">Explore the library <span>→</span></a><a href="#learning" class="btn btn-ghost">Start learning</a></div>
+          <div class="hero-trust"><div class="avatar-stack"><span>V</span><span>A</span><span>M</span><span>+</span></div><span>Open for learners, readers &amp; the community</span></div>
         </div>
+        <div class="hero-card">
+          <div class="hero-card-top"><span>LIBRARY TODAY</span><span class="live-dot">● Open</span></div>
+          <div class="hero-stats"><div><strong>1,200+</strong><span>Books &amp; resources</span></div><div><strong>24/7</strong><span>Digital learning</span></div></div>
+          <div class="featured-book"><div class="book-cover">THE<br><b>POWER</b><br>OF READING</div><div><small>FEATURED PICK</small><h3>The Power of Reading</h3><p>Build a reading habit, one page at a time.</p><button class="text-btn" data-book="The Power of Reading">View book →</button></div></div>
+        </div>
+      </div>
     </section>
 
-    <section id="about" class="about-section-container">
-        <div class="container">
-            <h2 class="modern-section-title">About AMG Community Library</h2>
-            <p class="section-subtitle">A welcoming space for minds to connect, learn, and grow together.</p>
-            
-            <div class="about-hero-grid">
-                <div class="about-essence-card">
-                    <span class="editorial-accent"></span>
-                    <h3>Our Mission</h3>
-                    <p>Founded with a passion for learning, AMG Community Library is dedicated to making knowledge, technology, and literature accessible to everyone. We believe a library is more than just books—it's the heartbeat of the community.</p>
-                    <p>Whether you are looking for the latest bestseller, a quiet place to study, or fun weekend workshops, our doors are always open to you.</p>
-                </div>
-                
-                <div class="about-visual-wrapper">
-                    <img src="images/enc.jpg" alt="Inside AMG Library" class="library-premium-pic">
-                    <div class="visual-decorative-backdrop"></div>
-                </div>
-            </div>
+    <section class="search-section"><div class="container"><div class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search books, authors, subjects or resources..." /><button id="searchBtn">Search</button></div><div class="quick-tags"><span>Popular:</span><button data-query="Mathematics">Mathematics</button><button data-query="Biology">Biology</button><button data-query="Fiction">Fiction</button><button data-query="KCSE">Past Papers</button><button data-query="Technology">Technology</button></div></div></section>
 
-            <div class="premium-features-grid">
-                <div class="interactive-feature-card">
-                    <div class="feature-icon-shield">📚</div>
-                    <h3>5,000+ Books</h3>
-                    <p>From classic literature to modern sci-fi, children's books, and educational textbooks.</p>
-                </div>
-                <div class="interactive-feature-card">
-                    <div class="feature-icon-shield">💻</div>
-                    <h3>Free Digital Access</h3>
-                    <p>High-speed internet, computer stations, and a growing catalog of e-books.</p>
-                </div>
-                <div class="interactive-feature-card">
-                    <div class="feature-icon-shield">👥</div>
-                    <h3>Community Events</h3>
-                    <p>Weekly book clubs, children's storytelling hours, and tech workshops for all ages.</p>
-                </div>
-            </div>
+    <section class="section" id="books"><div class="container">
+      <div class="section-heading"><div><span class="eyebrow">DISCOVER</span><h2>Explore our library</h2><p>Find your next book or learning resource.</p></div><a href="#" class="outline-link" id="viewAllBtn">View all books →</a></div>
+      <div class="category-row"><button class="category active" data-category="All">All</button><button class="category" data-category="Academic">Academic</button><button class="category" data-category="Fiction">Fiction</button><button class="category" data-category="Technology">Technology</button><button class="category" data-category="Personal Growth">Personal Growth</button><button class="category" data-category="Children">Children</button></div>
+      <div class="book-grid" id="bookGrid"></div><p class="empty-state" id="emptyBooks" hidden>No books matched your search. Try another title, author or category.</p>
+    </div></section>
 
-            <div class="schedule-display-wrapper">
-                <div class="schedule-card">
-                    <div class="schedule-header">
-                        <h3>🕒 Hours of Operation</h3>
-                    </div>
-                    <div class="schedule-row">
-                        <span class="day-label">Monday - Friday</span>
-                        <span class="time-window">9:00 AM - 8:00 PM</span>
-                    </div>
-                    <div class="schedule-row">
-                        <span class="day-label">Saturday- Sunday</span>
-                        <span class="time-window">10:00 AM - 5:00 PM</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <section class="learning-section" id="learning"><div class="container"><div class="section-heading light"><div><span class="eyebrow">LEARNING CENTRE</span><h2>More than a library.</h2><p>Tools and resources to help every learner keep moving forward.</p></div></div><div class="learning-grid">
+      <article class="learning-card large"><div class="card-icon">📝</div><span>01</span><h3>Notes &amp; Past Papers</h3><p>Organized revision material by subject, form and topic — ready when you need it.</p><a href="#" class="learn-link">Browse resources →</a></article>
+      <article class="learning-card"><div class="card-icon">🧠</div><span>02</span><h3>Practice Quizzes</h3><p>Test your knowledge and get instant results.</p><button class="learn-link open-quiz">Take a quiz →</button></article>
+      <article class="learning-card"><div class="card-icon">⏱</div><span>03</span><h3>Study Tools</h3><p>Pomodoro timer, study planner and flashcards.</p><button class="learn-link" id="timerBtn">Start focus timer →</button></article>
+      <article class="learning-card"><div class="card-icon">✨</div><span>04</span><h3>AI Learning Assistant</h3><p>Ask for explanations, examples and practice questions.</p><button class="learn-link open-ai">Ask the assistant →</button></article>
+    </div></div></section>
 
-    <section id="catalog" class="bg-light">
-        <div class="container">
-            <h2>AMG Library Catalog</h2>
-            <p class="section-subtitle">Explore our curated selections across children's favorites, modern technology, and global stories.</p>
-            
-            <h3 class="category-title">Children's Classics</h3>
-            <div class="catalog-grid">
-                <div class="book-card">
-                    <div class="book-cover-wrapper">
-                        <img src="https://covers.openlibrary.org/b/id/14570020-L.jpg" alt="Alice in Wonderland Cover">
-                    </div>
-                    <div class="book-info">
-                        <div>
-                            <span class="book-tag" style="background-color: #eff6ff; color: #1e3a8a;">Classics</span>
-                            <h3 class="book-title">Alice in Wonderland</h3>
-                        </div>
-                        <div>
-                            <p class="book-author">by Lewis Carroll</p>
-                            <a href="https://www.gutenberg.org/files/11/11-h/11-h.htm" target="_blank" class="btn book-btn">Read Online</a>
-                        </div>
-                    </div>
-                </div>
+    <section class="section stats-section" id="about"><div class="container about-grid"><div><span class="eyebrow">ABOUT AMG FOUNDATION</span><h2>Knowledge belongs to everyone.</h2><p>AMG FOUNDATION Community Library exists to make reading, learning and useful information easier to access within our community. Whether you are preparing for an exam, discovering a new story or learning a new skill, there is a place for you here.</p><div class="values"><span>📖 Accessible reading</span><span>🎓 Lifelong learning</span><span>🤝 Strong community</span></div></div><div class="impact-card"><div><strong>1.2K+</strong><span>Library resources</span></div><div><strong>500+</strong><span>Learners reached</span></div><div><strong>25+</strong><span>Learning topics</span></div><div><strong>100%</strong><span>Community focused</span></div></div></div></section>
 
-                <div class="book-card">
-                    <div class="book-cover-wrapper">
-                        <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=400&q=80" alt="The Secret Garden Cover">
-                    </div>
-                    <div class="book-info">
-                        <div>
-                            <span class="book-tag" style="background-color: #eff6ff; color: #1e3a8a;">Fiction</span>
-                            <h3 class="book-title">The Secret Garden</h3>
-                        </div>
-                        <div>
-                            <p class="book-author">by Frances Hodgson Burnett</p>
-                            <a href="https://www.gutenberg.org/files/113/113-h/113-h.htm" target="_blank" class="btn book-btn">Read Online</a>
-                        </div>
-                    </div>
-                </div>
+    <section class="cta"><div class="container cta-inner"><div><span class="eyebrow">JOIN THE COMMUNITY</span><h2>Your next chapter starts here.</h2><p>Create a free learner account to save books, track your reading and access learning tools.</p></div><button class="btn btn-light" id="joinBtn">Create learner account →</button></div></section>
+  </main>
 
-                <div class="book-card">
-                    <div class="book-cover-wrapper">
-                        <img src="https://covers.openlibrary.org/b/id/14394017-L.jpg" alt="Peter Pan Cover">
-                    </div>
-                    <div class="book-info">
-                        <div>
-                            <span class="book-tag" style="background-color: #eff6ff; color: #1e3a8a;">Fantasy</span>
-                            <h3 class="book-title">Peter Pan</h3>
-                        </div>
-                        <div>
-                            <p class="book-author">by J. M. Barrie</p>
-                            <a href="https://www.gutenberg.org/files/16/16-h/16-h.htm" target="_blank" class="btn book-btn">Read Online</a>
-                        </div>
-                    </div>
-                </div>
+  <footer id="contact"><div class="container footer-grid"><div><a class="brand footer-brand" href="#top"><span class="brand-mark"><img src="images/logo.jpg" alt="" /></span><span><strong>AMG FOUNDATION</strong><small>Community Library</small></span></a><p>A welcoming space for books, learning and community.</p></div><div><h4>Library</h4><a href="#books">Browse books</a><a href="#learning">Learning centre</a><a href="#">Borrowing guide</a></div><div><h4>Community</h4><a href="#about">About us</a><a href="#">Reading clubs</a><a href="#">Events</a></div><div><h4>Contact</h4><a href="mailto:info@amgfoundation.org">info@amgfoundation.org</a><a href="#">Visit the library</a><a href="#">Opening hours</a></div></div><div class="container footer-bottom"><span>© 2026 AMG FOUNDATION Community Library</span><span>Built for readers. Designed for learners.</span></div></footer>
 
-                <div class="book-card">
-                    <div class="book-cover-wrapper">
-                        <img src="https://covers.openlibrary.org/b/id/12817290-L.jpg" alt="Treasure Island Cover">
-                    </div>
-                    <div class="book-info">
-                        <div>
-                            <span class="book-tag" style="background-color: #eff6ff; color: #1e3a8a;">Adventure</span>
-                            <h3 class="book-title">Treasure Island</h3>
-                        </div>
-                        <div>
-                            <p class="book-author">by Robert Louis Stevenson</p>
-                            <a href="https://www.gutenberg.org/files/120/120-h/120-h.htm" target="_blank" class="btn book-btn">Read Online</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="book-card">
-                    <div class="book-cover-wrapper">
-                        <img src="https://covers.openlibrary.org/b/id/10574512-L.jpg" alt="The Wind in the Willows Cover">
-                    </div>
-                    <div class="book-info">
-                        <div>
-                            <span class="book-tag" style="background-color: #eff6ff; color: #1e3a8a;">Nature Tales</span>
-                            <h3 class="book-title">The Wind in the Willows</h3>
-                        </div>
-                        <div>
-                            <p class="book-author">by Kenneth Grahame</p>
-                            <a href="https://www.gutenberg.org/files/289/289-h/289-h.htm" target="_blank" class="btn book-btn">Read Online</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <h3 class="category-title">Coding & Technology</h3>
-            <div class="catalog-grid">
-                <div class="book-card">
-                    <div class="book-cover-wrapper">
-                        <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80" alt="Eloquent JavaScript Cover">
-                    </div>
-                    <div class="book-info">
-                        <div>
-                            <span class="book-tag" style="background-color: #ecfdf5; color: #047857;">Technology</span>
-                            <h3 class="book-title">Eloquent JavaScript</h3>
-                        </div>
-                        <div>
-                            <p class="book-author">by Marijn Haverbeke</p>
-                            <a href="https://eloquentjavascript.net/" target="_blank" class="btn book-btn">Read Free Online</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="book-card">
-                    <div class="book-cover-wrapper">
-                        <img src="https://covers.openlibrary.org/b/id/10189031-L.jpg" alt="Automate the Boring Stuff Cover">
-                    </div>
-                    <div class="book-info">
-                        <div>
-                            <span class="book-tag" style="background-color: #ecfdf5; color: #047857;">Automation</span>
-                            <h3 class="book-title">Automate the Boring Stuff with Python</h3>
-                        </div>
-                        <div>
-                            <p class="book-author">by Al Sweigart</p>
-                            <a href="https://automatetheboringstuff.com/" target="_blank" class="btn book-btn">Read Free Online</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="book-card">
-                    <div class="book-cover-wrapper">
-                        <img src="https://covers.openlibrary.org/b/id/14545367-L.jpg" alt="Learn Version Control Cover">
-                    </div>
-                    <div class="book-info">
-                        <div>
-                            <span class="book-tag" style="background-color: #ecfdf5; color: #047857;">Git</span>
-                            <h3 class="book-title">Learn Version Control with Git</h3>
-                        </div>
-                        <div>
-                            <p class="book-author">by Tobias Günther</p>
-                            <a href="https://www.git-tower.com/learn/git/ebook" target="_blank" class="btn book-btn">Read Free Online</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="book-card">
-                    <div class="book-cover-wrapper">
-                        <img src="https://covers.openlibrary.org/b/id/8231853-L.jpg" alt="Thinking in Java Cover">
-                    </div>
-                    <div class="book-info">
-                        <div>
-                            <span class="book-tag" style="background-color: #ecfdf5; color: #047857;">Software</span>
-                            <h3 class="book-title">Thinking in Java</h3>
-                        </div>
-                        <div>
-                            <p class="book-author">by Bruce Eckel</p>
-                            <a href="http://www.mindviewinc.com/TIJ4/index.php" target="_blank" class="btn book-btn">Read Free Online</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <h3 class="category-title">Global History & Heritage</h3>
-            <div class="catalog-grid">
-                <div class="book-card">
-                    <div class="book-cover-wrapper">
-                        <img src="https://covers.openlibrary.org/b/id/13106198-L.jpg" alt="The Souls of Black Folk Cover">
-                    </div>
-                    <div class="book-info">
-                        <div>
-                            <span class="book-tag" style="background-color: #fdf2f8; color: #9d174d;">History</span>
-                            <h3 class="book-title">The Souls of Black Folk</h3>
-                        </div>
-                        <div>
-                            <p class="book-author">by W. E. B. Du Bois</p>
-                            <a href="https://www.gutenberg.org/files/400/400-h/400-h.htm" target="_blank" class="btn book-btn">Read Online</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="book-card">
-                    <div class="book-cover-wrapper">
-                        <img src="https://covers.openlibrary.org/b/id/8225301-L.jpg" alt="The Discovery of India Cover">
-                    </div>
-                    <div class="book-info">
-                        <div>
-                            <span class="book-tag" style="background-color: #fdf2f8; color: #9d174d;">Heritage</span>
-                            <h3 class="book-title">The Discovery of India</h3>
-                        </div>
-                        <div>
-                            <p class="book-author">by Jawaharlal Nehru</p>
-                            <a href="https://archive.org/details/DiscoveryOfIndia" target="_blank" class="btn book-btn">Read Online</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact">
-        <div class="container">
-            <h2>Connect with Us</h2>
-            <p class="section-subtitle">Have questions about memberships or donations? We would love to hear from you!</p>
-            
-            <div class="contact-wrapper">
-                <div class="contact-info">
-                    <h3>Get in Touch</h3>
-                    <p>AMG Community Library is run by dedicated staff and amazing volunteers. Drop by, give us a call, or send an inquiry online.</p>
-                    
-                    <div class="info-item">
-                        <div class="info-icon">📍</div>
-                        <div>
-                            <h4>Visit Our Building</h4>
-                            <p>Kibra, opposite Kapsara Hardware</p>
-                        </div>
-                    </div>
-
-                    <div class="info-item">
-                        <div class="info-icon">📞</div>
-                        <div>
-                            <h4>Phone Support</h4>
-                            <p>+254726908936</p>
-                        </div>
-                    </div>
-
-                    <div class="info-item">
-                        <div class="info-icon">✉️</div>
-                        <div>
-                            <h4>General via Inbox Email</h4>
-                            <p>info@amgfoundationke.org</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="contact-form-container">
-                    <form class="contact-form" onsubmit="event.preventDefault(); alert('Thank you! Your message has been safely sent.'); this.reset();">
-                        <div class="form-group">
-                            <label for="contact-name">Full Name</label>
-                            <input type="text" id="contact-name" placeholder="Jane Doe" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="contact-email">Email Address</label>
-                            <input type="email" id="contact-email" placeholder="jane@example.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="contact-msg">Your Message</label>
-                            <textarea id="contact-msg" rows="5" placeholder="How can we help you today?" style="width:100%; border:1px solid #d1d5db; border-radius:6px; padding:0.75rem; font-family:inherit; outline:none; resize:none;" required></textarea>
-                        </div>
-                        <button type="submit" class="btn contact-submit-btn">Share Something</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="librarian-portal" class="hidden" style="background-color: #ffffff; border-top: 4px solid var(--primary-blue); padding: 3rem 0;">
-        <div class="container">
-            <div style="margin-bottom: 2rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 1rem;">
-                <h2>Librarian Desk</h2>
-            </div>
-            
-            <div style="display: flex; gap: 1.5rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap;">
-                <div style="background: var(--light-bg); padding: 1rem 2rem; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.2); text-align: center; min-width: 150px;">
-                    <span style="font-size: 0.85rem; font-weight: bold; color: var(--primary-blue); display: block; text-transform: uppercase;">Inside Now</span>
-                    <span id="live-counter" style="font-size: 2rem; font-weight: bold; color: var(--accent-green);">0</span>
-                </div>
-                <div style="background: #f3f4f6; padding: 1rem 2rem; border-radius: 8px; border: 1px solid #e5e7eb; text-align: center; min-width: 150px;">
-                    <span style="font-size: 0.85rem; font-weight: bold; color: #4b5563; display: block; text-transform: uppercase;">Total Visits Today</span>
-                    <span id="total-visits" style="font-size: 2rem; font-weight: bold; color: var(--primary-blue);">0</span>
-                </div>
-            </div>
-
-            <div id="capacity-alert" class="hidden" style="background-color: #fee2e2; color: #dc2626; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; font-weight: bold; text-align: center; border: 1px solid #fca5a5;">
-                ⚠️ Library is currently at maximum safe capacity!
-            </div>
-
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; margin-bottom: 2.5rem;">
-                <h3 style="margin-bottom: 0.25rem; font-size: 1.1rem; color: var(--primary-blue); text-align: left;"> AMG Learning Attendance Analysis</h3>
-                <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem; text-align: left;">Visual workload workload distribution chart updating real-time as users check into target schedules.</p>
-                
-                <div style="display: flex; justify-content: space-between; align-items: flex-end; height: 140px; border-bottom: 2px solid #cbd5e1; padding: 0 1rem; gap: 0.5rem;">
-                    <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%;">
-                        <div id="chart-bar-morning" style="width: 100%; max-width: 50px; background: #60a5fa; border-radius: 4px 4px 0 0; transition: height 0.4s ease; height: 0%;"></div>
-                        <span style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; text-align: center;">Morning<br>(<span id="chart-val-morning">0</span>)</span>
-                    </div>
-                    <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%;">
-                        <div id="chart-bar-midday" style="width: 100%; max-width: 50px; background: #34d399; border-radius: 4px 4px 0 0; transition: height 0.4s ease; height: 0%;"></div>
-                        <span style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; text-align: center;">Midday<br>(<span id="chart-val-midday">0</span>)</span>
-                    </div>
-                    <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%;">
-                        <div id="chart-bar-afternoon" style="width: 100%; max-width: 50px; background: #fbbf24; border-radius: 4px 4px 0 0; transition: height 0.4s ease; height: 0%;"></div>
-                        <span style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; text-align: center;">Afternoon<br>(<span id="chart-val-afternoon">0</span>)</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="portal-wrapper">
-                
-                <div class="portal-form-box">
-                    <h3>Check-In Learner</h3>
-                    <form id="checkin-form">
-                        <div class="form-group">
-                            <label for="learner-name">Learner Full Name</label>
-                            <input type="text" id="learner-name" placeholder="Enter name..." required>
-                        </div>
-                        <div class="form-group">
-                            <label for="visit-purpose">Purpose of Visit</label>
-                            <select id="visit-purpose" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.95rem; outline: none; background: white;">
-                                <option value="Self-Study">Self-Study / Homework</option>
-                                <option value="Computer Use">Using Computers / Internet</option>
-                                <option value="Group Project">Group Project</option>
-                                <option value="Tutoring">Tutoring & Mentorship</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn portal-btn">Check In Member</button>
-                    </form>
-                    <button id="export-btn" class="btn" style="width: 100%; background: var(--primary-blue); margin-top: 1rem; padding: 0.6rem; font-size: 0.9rem;">Download Attendance</button>
-                </div>
-
-                <div class="portal-table-box">
-                    <h3>Active Daily Log</h3>
-                    <div style="overflow-x: auto;">
-                        <table class="log-table">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Purpose</th>
-                                    <th>Time In</th>
-                                    <th style="text-align: right;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="log-table-body">
-                                <tr id="empty-state">
-                                    <td colspan="4" style="text-align: center; color: #9ca3af; padding: 2rem; font-style: italic;">No learners checked in yet today.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 AMG Community Library. Built with care.</p>
-    </footer>
-
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
-    <script src="script.js"></script>
+  <div class="modal" id="modal" aria-hidden="true"><div class="modal-backdrop"></div><div class="modal-panel"><button class="modal-close" id="modalClose">×</button><div id="modalContent"></div></div></div>
+  <script src="script.js"></script>
 </body>
 </html>
