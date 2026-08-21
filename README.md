@@ -1,75 +1,38 @@
-<div align="center">
+# AMG FOUNDATION Community Library
 
-# 📚 AMG COMMUNITY LIBRARY
-### **Library Portal · Visitor Management · Live Dashboard**
+A modern community library and learning platform for readers, learners, teachers and librarians.
 
-![Status](https://img.shields.io/badge/STATUS-ACTIVE-10B981?style=for-the-badge)
-![Frontend](https://img.shields.io/badge/FRONTEND-HTML%20%7C%20CSS%20%7C%20JS-1E3A8A?style=for-the-badge)
-![Backend](https://img.shields.io/badge/BACKEND-FIREBASE-FFCA28?style=for-the-badge&logo=firebase&logoColor=111111)
+## Current frontend
 
-**A responsive community-library portal with a Firebase-backed librarian desk.**
+- Responsive library landing page
+- Book catalog with search and category filtering
+- Book details and reservation demo flows
+- Learner sign-in interface
+- Learning Centre with quizzes, study tools and AI assistant placeholder
+- 25-minute Pomodoro focus timer
+- Dark-mode preference
+- Mobile navigation
+- Accessible semantic structure
+- Existing AMG image assets retained in `/images`
 
-</div>
+## Planned full-stack phase
 
----
+- Supabase authentication and PostgreSQL database
+- Librarian dashboard
+- Book inventory and shelf management
+- Borrow/return workflow
+- Learner accounts and reading history
+- QR/barcode scanning
+- Digital resources and past papers
+- Teacher resource portal
+- Analytics and reports
+- Email/WhatsApp due-date notifications
+- AI learning assistant connected to a secure server-side API
 
-## ✦ Overview
+## Run locally
 
-AMG Community Library combines a public library experience with a secure operational dashboard for visitor management.
+This is currently a static HTML/CSS/JavaScript application, so it can be opened directly in a browser or hosted with GitHub Pages/Vercel.
 
-## 🌐 Public Portal
+## Repository
 
-- Library information and mission
-- Curated physical and digital book catalog
-- Category-based resources
-- Contact experience
-- Responsive presentation
-
-## 🔒 Librarian Desk
-
-- Protected authentication layer
-- Real-time visitor check-in / check-out
-- Active visitor metrics
-- Capacity alerts
-- Cloud synchronization
-- CSV data export
-
-## 🧱 Stack
-
-`HTML5` · `CSS3` · `JavaScript` · `Firebase Realtime Database`
-
-## 📁 Structure
-
-```text
-amg-library/
-├── index.html
-├── script.js
-├── style.css
-└── images/
-```
-
-## 🚀 Local Setup
-
-```bash
-git clone https://github.com/vince551/AMG-library.git
-cd AMG-library
-```
-
-Use a local development server when working with Firebase modules or browser APIs.
-
-## 🔐 Production Checklist
-
-- Restrict Firebase database rules
-- Never expose privileged credentials in frontend code
-- Validate visitor data server-side where appropriate
-- Configure backups and access auditing
-
-## 👨‍💻 Author
-
-**Vince Odhiambo**
-
-Web developer · community technology builder
-
----
-
-<p align="center"><sub>Technology that helps communities read, learn and connect.</sub></p>
+https://github.com/vince551/AMG-library
